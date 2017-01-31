@@ -349,13 +349,13 @@ def push_to_datastore(task_id, input, dry_run=False):
     resource['hash'] = file_hash
 
     try:
-        table_set = messytables.any_tableset(f, mimetype=ct, extension=ct)
+        table_set = messytables.any_tableset(f, mimetype=ct, extension=ct, encoding='utf-8')
     except messytables.ReadError as e:
         ## try again with format
         f.seek(0)
         try:
             format = resource.get('format')
-            table_set = messytables.any_tableset(f, mimetype=format, extension=format)
+            table_set = messytables.any_tableset(f, mimetype=format, extension=format, encoding='utf-8')
         except:
             raise util.JobError(e)
 
