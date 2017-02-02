@@ -23,8 +23,7 @@ import ckanserviceprovider.job as job
 import ckanserviceprovider.util as util
 from ckanserviceprovider import web
 
-if not locale.getdefaultlocale()[0]:
-    locale.setlocale(locale.LC_ALL, '')
+locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
 
 MAX_CONTENT_LENGTH = web.app.config.get('MAX_CONTENT_LENGTH') or 10485760
 DOWNLOAD_TIMEOUT = 30
