@@ -69,6 +69,12 @@ pip install -r doc-requirements.txt
 python setup.py build_sphinx
 ```
 
+## Records limit
+To limit the number of records inserted into Datastore you can set the config
+variable `RECORDS_LIMIT` located in `deployment/datapusher_settings.py`.
+
+By default, this limit is set to 10000.
+
 ## Releasing a New Version
 
 To release a new version of DataPusher:

@@ -309,6 +309,14 @@ def push_to_datastore(task_id, input, dry_run=False):
     :type dry_run: boolean
 
     '''
+    RECORDS_LIMIT = web.app.config.get('RECORDS_LIMIT') or 10000
+
+    if not isinstance(RECORDS_LIMIT, int):
+        raise Exception('RECORDS_LIMIT must be an integer')
+
+    if RECORDS_LIMIT < 0:
+        raise Exception('RECORDS_LIMIT must be greater than 0')
+
     handler = util.StoringHandler(task_id, input)
     logger = logging.getLogger(task_id)
     logger.addHandler(handler)
@@ -328,7 +336,7 @@ def push_to_datastore(task_id, input, dry_run=False):
         #try again in 5 seconds just incase CKAN is slow at adding resource
         time.sleep(5)
         resource = get_resource(resource_id, ckan_url, api_key)
-        
+
     # check if the resource url_type is a datastore
     if resource.get('url_type') == 'datastore':
         logger.info('Dump files are managed with the Datastore API')
@@ -442,7 +450,8 @@ def push_to_datastore(task_id, input, dry_run=False):
     headers_set = set(headers)
 
     def row_iterator():
-        for row in row_set:
+        rows = itertools.islice(row_set, RECORDS_LIMIT)
+        for row in rows:
             data_row = {}
             for index, cell in enumerate(row):
                 column_name = cell.column.strip()

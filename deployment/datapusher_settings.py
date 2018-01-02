@@ -24,3 +24,6 @@ PORT = 8800
 
 #LOG_FILE = '/tmp/ckan_service.log'
 STDERR = True
+
+# Limit the number of records inserted into Datastore
+RECORDS_LIMIT = 10000
